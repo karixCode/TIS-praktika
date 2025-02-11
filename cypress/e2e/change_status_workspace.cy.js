@@ -1,6 +1,6 @@
 describe('template spec', () => {
-    it('confirm response', () => {
-        cy.fixture('createNewVacancy').then(data => {
+    beforeEach(() => {
+        cy.fixture('confirmResponse').then(data => {
             cy.viewport(1920, 1080)
             cy.log('Посещение сайта')
             cy.visit(data.main_url)
@@ -19,8 +19,18 @@ describe('template spec', () => {
             cy.log('Переход к откликам')
             cy.get(':nth-child(5) > .menu-item__item-name').click()
 
-            cy.log('Подтверждение заявки')
-            cy.get('.responses-list-item__actions > :nth-child(1)').first().click()
-            })
+            cy.log('Переход в рабочее пространство')
+            cy.contains('Рабочее пространство').first().click()
+        })
+    })
+
+    it('apply status workspace', () => {
+        cy.log('Принятие на вакансию')
+        cy.get('.status-open__buttons > :nth-child(1)').click()
+    })
+
+    it('reject status workspace', () => {
+        cy.log('Отказ на вакансию')
+        cy.get('.status-open__buttons > :nth-child(2)').click()
     })
 })

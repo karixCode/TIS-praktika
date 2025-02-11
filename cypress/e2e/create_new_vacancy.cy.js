@@ -1,5 +1,5 @@
 describe('template spec', () => {
-    it('response the vacancy', () => {
+    it('create new vacancy', () => {
         cy.fixture('createNewVacancy').then(data => {
             cy.viewport(1920, 1080)
             cy.log('Посещение сайта')
