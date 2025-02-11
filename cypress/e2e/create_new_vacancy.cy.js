@@ -1,7 +1,7 @@
 describe('template spec', () => {
     beforeEach(() => {
         cy.fixture('createNewVacancy').then((data) => {
-            cy.wrap(data).as('data') // Сохраняем данные через `cy.wrap()`
+            cy.wrap(data).as('data')
 
             cy.viewport(1920, 1080)
             cy.log('Посещение сайта')
