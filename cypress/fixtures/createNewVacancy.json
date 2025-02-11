@@ -4,5 +4,7 @@
   "password": "Password1",
   "title": "Веб - разработчик",
   "duties": "Нужно быть пить кофе и есть печеньки!",
-  "requirements": "-HTML -CSS -JS -VUE -REACT"
+  "requirements": "-HTML -CSS -JS -VUE -REACT",
+  "duties_negative": "@#!$",
+  "requirements_negative": "123"
 }

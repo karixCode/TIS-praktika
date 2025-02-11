@@ -1,6 +1,8 @@
 describe('template spec', () => {
-    it('create new vacancy', () => {
-        cy.fixture('createNewVacancy').then(data => {
+    beforeEach(() => {
+        cy.fixture('createNewVacancy').then((data) => {
+            cy.wrap(data).as('data') // Сохраняем данные через `cy.wrap()`
+
             cy.viewport(1920, 1080)
             cy.log('Посещение сайта')
             cy.visit(data.main_url)
@@ -9,10 +11,8 @@ describe('template spec', () => {
             cy.contains('button', 'Авторизация').click()
 
             cy.log('Ввод данных в форму')
-            cy.get('.form-input--text')
-                .type(data.employer_login)
-            cy.get('.form-input--password')
-                .type(data.password)
+            cy.get('.form-input--text').type(data.employer_login)
+            cy.get('.form-input--password').type(data.password)
             cy.get(':nth-child(3) > .button').click()
             cy.wait(1000)
 
@@ -21,7 +21,11 @@ describe('template spec', () => {
 
             cy.log('Переход к созданию потребности')
             cy.get('.needs-block__filters-wrapper > .button').click()
+        })
+    })
 
+    it('create new vacancy positive', function () {
+        cy.get('@data').then((data) => {
             cy.log('Ввод данных для создания потребности')
             cy.get('.desktop-modal__content > .vacancy-need-wrapper > .form > :nth-child(1) > .form__labels > .labels > :nth-child(1) > .form-control--responsive > .form-input--text')
                 .type(data.title)
@@ -29,9 +33,23 @@ describe('template spec', () => {
                 .type(data.duties)
             cy.get('.desktop-modal__content > .vacancy-need-wrapper > .form > :nth-child(1) > .form__labels > .labels > :nth-child(4) > .form-control > .form-area')
                 .type(data.requirements)
-
-            cy.log('Создание потребности')
-            cy.get('.desktop-modal__content > .vacancy-need-wrapper > .form > .form__buttons > .button').click()
         })
+    })
+
+    it('create new vacancy negative', function () {
+        cy.get('@data').then((data) => {
+            cy.log('Ввод некорректных данных для создания потребности')
+            cy.get('.desktop-modal__content > .vacancy-need-wrapper > .form > :nth-child(1) > .form__labels > .labels > :nth-child(1) > .form-control--responsive > .form-input--text')
+                .clear()
+            cy.get('.desktop-modal__content > .vacancy-need-wrapper > .form > :nth-child(1) > .form__labels > .labels > :nth-child(3) > .form-control > .form-area')
+                .type(data.duties_negative)
+            cy.get('.desktop-modal__content > .vacancy-need-wrapper > .form > :nth-child(1) > .form__labels > .labels > :nth-child(4) > .form-control > .form-area')
+                .type(data.requirements_negative)
+        })
+    })
+
+    afterEach(() => {
+        cy.log('Создание потребности')
+        cy.get('.desktop-modal__content > .vacancy-need-wrapper > .form > .form__buttons > .button').click()
     })
 })
