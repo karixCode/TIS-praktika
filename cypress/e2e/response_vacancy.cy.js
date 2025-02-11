@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('response the vacancy', () => {
-    cy.fixture('main_data').then(data => {
+    cy.fixture('responseVacancy').then(data => {
       cy.log('Посещение сайта')
       cy.visit(data.main_url)
 
